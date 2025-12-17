@@ -1,0 +1,27 @@
+name: Linux Command Artifact + Path Filter
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Linux command and save output
+        run: |
+          mkdir artifacts
+          uname -a > artifacts/system-info.txt
+          ls -la >> artifacts/system-info.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-command-output
+          path: artifacts/system-info.txt
